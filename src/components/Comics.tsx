@@ -92,7 +92,8 @@ const Comics = () => {
             }
         }
         return null;
-    }, [heros, id])
+    }, [heros, id]);
+    
     const styles = {
         backgroundImage: "url(" + "https://images.pexels.com/photos/34153/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350" + ")",
     }
