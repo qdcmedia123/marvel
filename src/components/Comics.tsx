@@ -1,18 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useState, useRef, useReducer } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './styles/card.css';
 import './styles/model.css';
-import { Container } from './styled-components/index';
+import './styles/skew-header.css';
+import { Avatar, Container } from './styled-components/index';
 import useOnClickOutside from "hooks/useOnClickOutside";
-import { Model } from 'components/styled-components'
 import Skleton from 'react-loading-skeleton';
+import ListComics from './List/ListComics';
+import ComicModel from 'components/Models/ComicModel';
+import Header from './Header';
+import { useTypedSelector } from 'hooks/use-typed-selector';
+
 
 interface ParamTypes {
     id: string;
 }
-
-type creators = [];
 
 const Comics = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -23,7 +26,13 @@ const Comics = () => {
     const [containerHeigh, setContainerHeight] = useState<any>(100);
     const [popUpisActive, setPoupActive] = useState<boolean>(false);
 
+    const heros = useTypedSelector(({ heros }) => {
+        return heros;
+    });
+
     useOnClickOutside(ref, () => setPoupActive(false));
+
+    
 
     const fetchComicsById = useCallback(async () => {
         try {
@@ -46,72 +55,69 @@ const Comics = () => {
         e.preventDefault();
         setPoupActive(true);
         setCurrentCmc(comic);
-        console.log(comic)
 
-    }
+    };
 
-    const getLastNameAsStr = (creators: creators) => {
-
-        if (creators.length < 0) return null;
-        return creators.map((creator: any) => {
-            const splitName = creator.name.split(' ');
-            return splitName[splitName.length - 1];
-        }).join(', ');
-    }
     const getComicsUI = useMemo(() => {
         if (comics.length > 0) {
-            return comics.map((comic: any, i: number) => <a onClick={(e) => setCurrentComic(e, comic)} key={i} className="card" href="!#">
-                <div className="imgWrap-comics">
-                    <img src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
-                        alt="" />
-                </div>
-                <div className="body-comics">
-                    <div className="text">{comic.title}</div>
-                    <div className="text-footer gray-text">{getLastNameAsStr(comic.creators.items)}</div>
-                </div>
-            </a>
-            );
+            return <ListComics comics = {comics} setCurrentComic = {setCurrentComic}/>
         }
         return null;
     }, [comics])
 
     useEffect(() => {
-
         if (!loading && comics.length > 0) {
             const height = document.getElementById('container')?.clientHeight;
             setContainerHeight(height)
         }
-    }, [loading, comics])
+    }, [loading, comics]);
 
     const getModel = useMemo(() => {
         if (Object.entries(currentComic).length > 0 && popUpisActive) {
-            return <Model height={containerHeigh}>
-                <div className="popup-wrapper" ref={ref}>
-                    <div className="popup-title">{currentComic.title}</div>
-                    <div className="col-wrapper">
-                        <div className="col">
-                            <img src={`${currentComic.thumbnail.path}/portrait_uncanny.${currentComic.thumbnail.extension}`}
-                                alt="" />
-                        </div>
-                        <div className="col">
-                            <div className="col-text">
-                                {currentComic.description}
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </Model>;
-
+            return <ComicModel currentComic = { currentComic} refP = {ref} containerHeigh = {containerHeigh}/>;
         }
-
         return null;
-    }, [currentComic, containerHeigh, popUpisActive])
+    }, [currentComic, containerHeigh, popUpisActive]);
+
+    const getAvatarLink = useMemo(() => {
+        console.log(typeof id);
+        console.log(heros)
+        if(heros.length > 0) {
+            const getFiltered = heros.filter((hero: any) => {
+               if (hero.id === parseInt(id)) return true;
+            });
+
+            if(getFiltered) {
+                return `${getFiltered[0].thumbnail.path}/portrait_incredible.${getFiltered[0].thumbnail.extension}`;
+            }
+        }
+        return null;
+    }, [heros, id])
+    const styles = {
+        backgroundImage: "url(" + "https://images.pexels.com/photos/34153/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350" + ")",
+    }
+
+    console.log(getAvatarLink);
     return (
         <>
             {getModel}
-            <Container id="container">
-                {comics.length === 0 && <div className = "nofify">No comics found</div>}
+            <Header/>
+            <div className = "skew-container">
+                <div className = "comic-parent">
+                     <div className = "col parent-title">
+                         My Name
+                     </div>
+                     {getAvatarLink && <Avatar link = {getAvatarLink}/>}
+                     {/* <div className = "col company-header-avatar" style = {styles}>
+                      
+                     </div> */}
+                </div>
+            </div>
+            <Container id="container" comicContainer>
+                <div className = "container-title">
+                    Comics
+                </div>
+                {comics.length === 0 &&  !loading && <div className = "nofify">No comics found</div>}
                 {!loading && <div className="grid">
                     {getComicsUI}
                 </div>}

@@ -1,5 +1,5 @@
 body {
-    background-color:#E5E5E5 ;
+    background-color:#fff ;
     font-family: RobotoCondensed Bold, Trebuchet MS, Helvetica, Arial, sans-serif;
    
 }
@@ -21,7 +21,7 @@ body {
     content: '';
     width: 20px;
     height: 20px;
-    background: #E5E5E5;
+    background: #fff;
     border: 3px solid #e62429;
     transform: rotate(45deg);
     position: absolute;
@@ -35,7 +35,7 @@ body {
     content: '';
     width: 20px;
     height: 20px;
-    background: #E5E5E5;
+    background: #fff;
     border: 3px solid #e62429;
     transform: rotate(-132deg);
     position: absolute;
