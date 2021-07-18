@@ -1,4 +1,3 @@
-import React from 'react';
 import { Model } from 'components/styled-components'
 
 interface ComicModelProps {

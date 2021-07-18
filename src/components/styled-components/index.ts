@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface ContainerProps {
-  comicContainer?:any;
+  comicContainer?: any;
 }
 interface ModelProps {
   height: any;
@@ -12,7 +12,9 @@ export const Container = styled.div<ContainerProps>`
   margin: auto;
   height: 100vh;
   justify-content: center;
-  ${props => props.comicContainer && `
+  ${(props) =>
+    props.comicContainer &&
+    `
     margin-top: 15px
   `}
 `;
@@ -57,18 +59,18 @@ export const Model = styled.div<ModelProps>`
   animation-duration: 0.5s;
 `;
 
-export const Avatar = styled.div<{link: string}>`
-background-image: url(${props => props.link});
-width: 60px;
-    height: 60px;
-    -webkit-border-radius: 60px;
-    -webkit-background-clip: padding-box;
-    -moz-border-radius: 60px;
-    -moz-background-clip: padding;
-    border-radius: 60px;
-    background-clip: padding-box;
-    margin: 7px 0 0 5px;
-    float: left;
-    background-size: cover;
-    background-position: center center;
-`
+export const Avatar = styled.div<{ link: string }>`
+  background-image: url(${(props) => props.link});
+  width: 100px;
+  height: 100px;
+  -webkit-border-radius: 100px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 100px;
+  -moz-background-clip: padding;
+  border-radius: 100px;
+  background-clip: padding-box;
+  margin: 7px 0 0 5px;
+  float: left;
+  background-size: cover;
+  background-position: center center;
+`;

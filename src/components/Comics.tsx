@@ -32,8 +32,6 @@ const Comics = () => {
 
     useOnClickOutside(ref, () => setPoupActive(false));
 
-    
-
     const fetchComicsById = useCallback(async () => {
         try {
             setLoading(true);
@@ -80,25 +78,19 @@ const Comics = () => {
     }, [currentComic, containerHeigh, popUpisActive]);
 
     const getAvatarLink = useMemo(() => {
-        console.log(typeof id);
-        console.log(heros)
         if(heros.length > 0) {
             const getFiltered = heros.filter((hero: any) => {
                if (hero.id === parseInt(id)) return true;
+               return false;
             });
-
+           
             if(getFiltered) {
-                return `${getFiltered[0].thumbnail.path}/portrait_incredible.${getFiltered[0].thumbnail.extension}`;
+                return {link: `${getFiltered[0].thumbnail.path}/portrait_incredible.${getFiltered[0].thumbnail.extension}`, name: getFiltered[0].name};
             }
         }
         return null;
     }, [heros, id]);
-    
-    const styles = {
-        backgroundImage: "url(" + "https://images.pexels.com/photos/34153/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350" + ")",
-    }
 
-    console.log(getAvatarLink);
     return (
         <>
             {getModel}
@@ -106,12 +98,9 @@ const Comics = () => {
             <div className = "skew-container">
                 <div className = "comic-parent">
                      <div className = "col parent-title">
-                         My Name
+                        {getAvatarLink && getAvatarLink.name}
                      </div>
-                     {getAvatarLink && <Avatar link = {getAvatarLink}/>}
-                     {/* <div className = "col company-header-avatar" style = {styles}>
-                      
-                     </div> */}
+                     {getAvatarLink && <Avatar link = {getAvatarLink.link}/>}
                 </div>
             </div>
             <Container id="container" comicContainer>

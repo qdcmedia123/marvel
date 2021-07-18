@@ -2,9 +2,11 @@
     position: relative;
     background-color: #000000;
     margin:0;
-    height: 200px;
+    height: 250px;
     border-bottom: 1px solid gray;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -38,19 +40,6 @@
   .parent-title {
       color: #fff;
       font-family: RobotoCondensed Bold, Trebuchet MS, Helvetica, Arial, sans-serif;
-  }
-
-  .company-header-avatar{
-    width: 60px;
-    height: 60px;
-    -webkit-border-radius: 60px;
-    -webkit-background-clip: padding-box;
-    -moz-border-radius: 60px;
-    -moz-background-clip: padding;
-    border-radius: 60px;
-    background-clip: padding-box;
-    margin: 7px 0 0 5px;
-    float: left;
-    background-size: cover;
-    background-position: center center;
+      font-size: 30px; 
+      
 }

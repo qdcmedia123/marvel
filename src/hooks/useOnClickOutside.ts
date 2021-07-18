@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {useEffect} from 'react';
+
 function useOnClickOutside(ref, handler) {
     useEffect(
       () => {

@@ -1,0 +1,31 @@
+.search-container {
+  max-width: 1290px;
+  margin: auto;
+}
+
+.search-childs {
+  display: grid;
+  grid-template-columns: minmax(150px, 100%);
+  padding: 25px 15px;
+  grid-gap: 15px;
+}
+
+.search-childs input[type="text"] {
+  border: 1px solid #aaaaaa;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  /* identical to box height */
+  color: #6c6c6c;
+  padding: 0px 15px;
+  height: 56px;
+}
+
+.clear-text {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
