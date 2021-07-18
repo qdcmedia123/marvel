@@ -1,3 +1,6 @@
+import { createGlobalStyle } from "styled-components";
+
+export const SearchStyle = createGlobalStyle`
 .search-container {
   max-width: 1290px;
   margin: auto;
@@ -15,3 +18,5 @@
   align-items: center;
   cursor: pointer;
 }
+
+`;

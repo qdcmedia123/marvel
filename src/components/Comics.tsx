@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './styles/card.css';
-import './styles/model.css';
-import './styles/skew-header.css';
-import { Avatar, Container } from './styled-components/index';
-import useOnClickOutside from "hooks/useOnClickOutside";
+import { Avatar, Container } from 'components/styled-components/index';
+import useOnClickOutside from 'hooks/useOnClickOutside';
 import Skleton from 'react-loading-skeleton';
-import ListComics from './List/ListComics';
+import ListComics from 'components/List/ListComics';
 import ComicModel from 'components/Models/ComicModel';
-import Header from './Header';
+import Header from 'components/Header';
 import { useTypedSelector } from 'hooks/use-typed-selector';
-
+import { CardStyles } from 'components/styled-components/card';
+import { SkewHeaderStyle } from 'components/styled-components/skew-header'
+import { ModelStyles } from 'components/styled-components/model'
 
 interface ParamTypes {
     id: string;
@@ -58,7 +57,7 @@ const Comics = () => {
 
     const getComicsUI = useMemo(() => {
         if (comics.length > 0) {
-            return <ListComics comics = {comics} setCurrentComic = {setCurrentComic}/>
+            return <ListComics comics={comics} setCurrentComic={setCurrentComic} />
         }
         return null;
     }, [comics])
@@ -72,20 +71,20 @@ const Comics = () => {
 
     const getModel = useMemo(() => {
         if (Object.entries(currentComic).length > 0 && popUpisActive) {
-            return <ComicModel currentComic = { currentComic} refP = {ref} containerHeigh = {containerHeigh}/>;
+            return <ComicModel currentComic={currentComic} refP={ref} containerHeigh={containerHeigh} />;
         }
         return null;
     }, [currentComic, containerHeigh, popUpisActive]);
 
     const getAvatarLink = useMemo(() => {
-        if(heros.length > 0) {
+        if (heros.length > 0) {
             const getFiltered = heros.filter((hero: any) => {
-               if (hero.id === parseInt(id)) return true;
-               return false;
+                if (hero.id === parseInt(id)) return true;
+                return false;
             });
-           
-            if(getFiltered) {
-                return {link: `${getFiltered[0].thumbnail.path}/portrait_incredible.${getFiltered[0].thumbnail.extension}`, name: getFiltered[0].name};
+
+            if (getFiltered) {
+                return { link: `${getFiltered[0].thumbnail.path}/portrait_incredible.${getFiltered[0].thumbnail.extension}`, name: getFiltered[0].name };
             }
         }
         return null;
@@ -93,21 +92,26 @@ const Comics = () => {
 
     return (
         <>
+            <ModelStyles />
             {getModel}
-            <Header/>
-            <div className = "skew-container">
-                <div className = "comic-parent">
-                     <div className = "col parent-title">
+            <SkewHeaderStyle />
+            <Header />
+            <CardStyles />
+
+            <div className="skew-container">
+                <div className="comic-parent">
+                    <div className="col parent-title">
                         {getAvatarLink && getAvatarLink.name}
-                     </div>
-                     {getAvatarLink && <Avatar link = {getAvatarLink.link}/>}
+                    </div>
+                    {getAvatarLink && <Avatar link={getAvatarLink.link} />}
                 </div>
             </div>
+            
             <Container id="container" comicContainer>
-                <div className = "container-title">
+                <div className="container-title">
                     Comics
                 </div>
-                {comics.length === 0 &&  !loading && <div className = "nofify">No comics found</div>}
+                {comics.length === 0 && !loading && <div className="nofify">No comics found</div>}
                 {!loading && <div className="grid">
                     {getComicsUI}
                 </div>}

@@ -2,29 +2,34 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTypedSelector } from 'hooks/use-typed-selector';
 import { useActions } from 'hooks/use-actions';
 import axios from 'axios';
-import { Container } from './styled-components'
+import { Container, Input } from 'components/styled-components'
+import { CardStyles } from 'components/styled-components/card';
+import { List } from 'components/styled-components/list';
+import { SearchStyle } from 'components/styled-components/search';
 import Skleton from 'react-loading-skeleton';
-import Header from './Header';
-import ListSuperHeros from './List/ListSuperHeros';
-import './styles/list.css';
-import './styles/card.css';
-import './styles/search.css';
+import Header from 'components/Header';
+import ListSuperHeros from 'components/List/ListSuperHeros';
+import { HeroInterface } from 'state/actions/heros'
+ 
+interface formInterface {
+    search: string;
+}
 
 const Superheros = () => {
     const limit = 20;
     const [offset, setOffset] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [formData, setFormData] = useState<any>({ search: '' });
-    const [localHeros, setLocalHeros] = useState<any>([]);
-    const [noResultFound, setNoResultFound] = useState(true);
+    const [formData, setFormData] = useState<formInterface>({ search: '' });
+    const [localHeros, setLocalHeros] = useState<HeroInterface[]>([]);
+    const [noResultFound, setNoResultFound] = useState<boolean>(true);
 
     const heros = useTypedSelector(({ heros }) => {
         return heros;
     });
 
     const { fetchHeros } = useActions();
-    
+
     const fetchHerosLocal = useCallback(async () => {
         if (heros.length > 0) return;
         try {
@@ -59,7 +64,7 @@ const Superheros = () => {
         if (heros.length > 0 && localHeros.length === 0 && noResultFound) {
             setLocalHeros(heros);
         }
-    }, [heros, localHeros, noResultFound])
+    }, [heros, localHeros, noResultFound]);
 
     useEffect(() => {
         fetchHerosLocal();
@@ -84,18 +89,21 @@ const Superheros = () => {
         setLocalHeros(mapSearch);
     }, []);
 
-    const onChange = useCallback((e) => {
+    const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({ [name]: value });
+        setFormData({...formData, [name]: value });
         searchHeros(heros, value);
-    }, [searchHeros, heros]);
+    }, [searchHeros, heros, formData]);
 
     return (
         <>
             <Header />
+            <CardStyles/>
+            <List/>
+            <SearchStyle/>
             <div className="search-container">
                 <div className="search-childs">
-                    <input
+                    <Input
                         placeholder="Search"
                         type="text"
                         name="search"

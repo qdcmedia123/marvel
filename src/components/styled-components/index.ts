@@ -74,3 +74,21 @@ export const Avatar = styled.div<{ link: string }>`
   background-size: cover;
   background-position: center center;
 `;
+
+export const Input = styled.input.attrs(() => ({
+  type: "text",
+}))`
+  border: 1px solid #aaaaaa;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #6c6c6c;
+  padding: 0px 15px;
+  height: 56px;
+  ::placeholder {
+    color: gray;
+  }
+`;
