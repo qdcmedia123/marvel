@@ -216,4 +216,4 @@ export const defaultCurrComic:ComicInterface = {
        ],
        "returned":1
     }
- };
+};
