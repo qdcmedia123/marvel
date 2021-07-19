@@ -127,7 +127,7 @@ const Superheros = () => {
             <div className="search-container">
                 <div className="search-childs">
                     <Input
-                        placeholder="Search"
+                        placeholder="Search heros"
                         type="text"
                         name="search"
                         onChange={onChange}

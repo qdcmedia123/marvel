@@ -1,6 +1,8 @@
+import { ComicInterface } from 'Interfaces/Comic'
+
 interface ListComicsProps {
     comics: any;
-    setCurrentComic: any;
+    setCurrentComic: Function;
 }
 
 type creators = [];
@@ -13,7 +15,7 @@ const ListComics = ({ comics, setCurrentComic }: ListComicsProps) => {
             return splitName[splitName.length - 1];
         }).join(', ');
     }
-    return comics.map((comic: any, i: number) => <a onClick={(e) => setCurrentComic(e, comic)} key={i} className="card" href="!#">
+    return comics.map((comic: ComicInterface, i: number) => <a onClick={(e) => setCurrentComic(e, comic)} key={i} className="card" href="!#">
         <div className="imgWrap-comics">
             <img src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
                 alt="" />
@@ -25,4 +27,5 @@ const ListComics = ({ comics, setCurrentComic }: ListComicsProps) => {
     </a>
     );
 }
+
 export default ListComics;

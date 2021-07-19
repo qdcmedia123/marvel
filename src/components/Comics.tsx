@@ -10,8 +10,9 @@ import Header from 'components/Header';
 import { useTypedSelector } from 'hooks/use-typed-selector';
 import { CardStyles } from 'components/styled-components/card';
 import { SkewHeaderStyle } from 'components/styled-components/skew-header'
-import { ModelStyles } from 'components/styled-components/model'
-
+import { ModelStyles } from 'components/styled-components/model';
+import { ComicInterface } from 'Interfaces/Comic';
+ 
 interface ParamTypes {
     id: string;
 }
@@ -19,10 +20,10 @@ interface ParamTypes {
 const Comics = () => {
     const ref = useRef<HTMLDivElement>(null);
     const { id } = useParams<ParamTypes>();
-    const [comics, setComics] = useState<any>([]);
+    const [comics, setComics] = useState<ComicInterface[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [currentComic, setCurrentCmc] = useState<any>({ description: '' });
-    const [containerHeigh, setContainerHeight] = useState<any>(100);
+    const [currentComic, setCurrentCmc] = useState<any>({ description: ''});
+    const [containerHeigh, setContainerHeight] = useState<number>(100);
     const [popUpisActive, setPoupActive] = useState<boolean>(false);
 
     const heros = useTypedSelector(({ heros }) => {
@@ -44,10 +45,6 @@ const Comics = () => {
 
     }, [id]);
 
-    useEffect(() => {
-        fetchComicsById();
-    }, [fetchComicsById]);
-
     const setCurrentComic = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, comic: object) => {
         e.preventDefault();
         setPoupActive(true);
@@ -62,16 +59,17 @@ const Comics = () => {
         return null;
     }, [comics])
 
-    useEffect(() => {
-        if (!loading && comics.length > 0) {
-            const height = document.getElementById('container')?.clientHeight;
-            setContainerHeight(height)
-        }
-    }, [loading, comics]);
-
+    
     const getModel = useMemo(() => {
-        if (Object.entries(currentComic).length > 0 && popUpisActive) {
-            return <ComicModel currentComic={currentComic} refP={ref} containerHeigh={containerHeigh} />;
+        if (Object.entries(currentComic).length > 0 
+            && popUpisActive 
+            && containerHeigh
+            ) {
+            return <ComicModel 
+                    currentComic={currentComic} 
+                    refP={ref} 
+                    containerHeigh={containerHeigh} 
+                    />;
         }
         return null;
     }, [currentComic, containerHeigh, popUpisActive]);
@@ -89,6 +87,19 @@ const Comics = () => {
         }
         return null;
     }, [heros, id]);
+
+    useEffect(() => {
+        if (!loading && comics.length > 0) {
+            const height = document.getElementById('container')?.clientHeight;
+            if(height) setContainerHeight(height);
+            
+        }
+    }, [loading, comics]);
+
+    useEffect(() => {
+        fetchComicsById();
+    }, [fetchComicsById]);
+
 
     return (
         <>
@@ -109,9 +120,10 @@ const Comics = () => {
             
             <Container id="container" comicContainer>
                 <div className="container-title">
-                    Comics
+                    {comics.length === 1 ? 'Comic' : 'Comics'}
                 </div>
-                {comics.length === 0 && !loading && <div className="nofify">No comics found</div>}
+                {comics.length === 0 && !loading 
+                 && <div className="nofify">No comics found</div>}
                 {!loading && <div className="grid">
                     {getComicsUI}
                 </div>}

@@ -45,7 +45,7 @@ export interface Series {
 export interface Creators {
     available:     number;
     collectionURI: string;
-    items:         CreatorsItem[];
+    items:         any;
     returned:      number;
 }
 

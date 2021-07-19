@@ -1,3 +1,6 @@
+import { createGlobalStyle }   from "styled-components";
+
+export const HeaderStyles = createGlobalStyle`
 header {
     height: 74px;
     display: flex;
@@ -6,3 +9,4 @@ header {
     background-color: #191919;
     margin:0px
 }
+`;

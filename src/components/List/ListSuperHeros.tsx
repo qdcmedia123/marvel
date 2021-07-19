@@ -1,9 +1,11 @@
+import { HeroInterface } from 'Interfaces/Heros';
+
 interface Heros {
     heros: any;
 }
 
 const ListSuperHeros = ({ heros }: Heros) => {
-    return heros.map((hero: any, i: number) => <a key = {i} className="card" href={`/#/comics/${hero.id}`}>
+    return heros.map((hero: HeroInterface, i: number) => <a key={i} className="card" href={`/#/comics/${hero.id}`}>
         <div className="imgWrap">
             <img src={`${hero.thumbnail.path}/portrait_incredible.${hero.thumbnail.extension}`}
                 alt="" />
