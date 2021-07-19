@@ -44,6 +44,6 @@ export const SkewHeaderStyle = createGlobalStyle`
       color: #fff;
       font-family: RobotoCondensed Bold, Trebuchet MS, Helvetica, Arial, sans-serif;
       font-size: 30px; 
+      padding-right: 15px;
       
 }`;
-
