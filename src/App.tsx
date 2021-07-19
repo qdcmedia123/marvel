@@ -1,7 +1,7 @@
 import { HashRouter as Router, Route } from 'react-router-dom'
 import Superheros from 'components/Superheros';
 import Comics from 'components/Comics';
-import { store } from './state';
+import { store } from 'state';
 import { Provider } from 'react-redux';
 
 function App() {

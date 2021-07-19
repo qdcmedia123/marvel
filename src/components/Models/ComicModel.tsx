@@ -1,9 +1,10 @@
 import { Model } from 'components/styled-components'
+import { ComicInterface } from 'Interfaces/Comic';
 
 interface ComicModelProps {
     containerHeigh: number;
-    refP: any;
-    currentComic: any;
+    refP:React.RefObject<HTMLDivElement>;
+    currentComic: ComicInterface;
 }
 
 const ComicModel = ({ containerHeigh, refP, currentComic }: ComicModelProps) => {
@@ -25,7 +26,5 @@ const ComicModel = ({ containerHeigh, refP, currentComic }: ComicModelProps) => 
         </div>
     </Model>);
 };
-
-
 
 export default ComicModel;

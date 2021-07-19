@@ -12,8 +12,9 @@ export const ModelStyles = createGlobalStyle`
   position: absolute;
   width: 100%;
   height: 1275.53px !important;
-  margin: 0;
   padding: 0;
+  top: 0px;
+  margin: 0;
   z-index: 101;
   opacity: 1;
   animation-name: fadeInOpacity;
@@ -24,7 +25,7 @@ export const ModelStyles = createGlobalStyle`
 
 .popup-wrapper {
   padding: 53px 44px;
-  position: absolute;
+  position: fixed;
   left: calc(50% - 700px / 2 - 0.5px);
   right: calc(50% - 700px / 2 - 0.5px);
   top: 50px;
@@ -37,6 +38,7 @@ export const ModelStyles = createGlobalStyle`
   animation-iteration-count: 1;
   animation-timing-function: ease-in;
   animation-duration: 0.5s;
+  
 }
 
 @keyframes fadeInOpacity {

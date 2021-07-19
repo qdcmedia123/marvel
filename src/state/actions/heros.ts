@@ -1,18 +1,6 @@
 import { ActionTypes } from "state/action-types";
+import { HeroInterface } from 'Interfaces/Heros';
 
-export interface HeroInterface {
-    id: number;
-    name: string;
-    description: string | null;
-    modified: string;
-    thumbnail: object | null;
-    resourceURI: string;
-    comics: string;
-    series: object;
-    stories: object;
-    events: object;
-    urls: object;
- }
 
 export interface Heros {
     heros: HeroInterface[];
@@ -29,3 +17,5 @@ export const fetchHeros = (data:Heros) => {
         payload: data
     }
 }
+
+

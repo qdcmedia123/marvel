@@ -1,4 +1,4 @@
-import { herosReducers } from "./heros";
+import { herosReducers } from "state/reducers/heros";
 import { combineReducers } from 'redux';
 
 

@@ -9,8 +9,9 @@ import { SearchStyle } from 'components/styled-components/search';
 import Skleton from 'react-loading-skeleton';
 import Header from 'components/Header';
 import ListSuperHeros from 'components/List/ListSuperHeros';
-import { HeroInterface } from 'state/actions/heros'
- 
+import { HeroInterface } from 'Interfaces/Heros';
+import { getSuperHerosAPI } from 'config/apis';
+
 interface formInterface {
     search: string;
 }
@@ -34,9 +35,10 @@ const Superheros = () => {
         if (heros.length > 0) return;
         try {
             setLoading(true);
-            const response = await axios.get(`https://gateway.marvel.com:443/v1/public/characters?apikey=94dddfd6f9cb5b1039abdd069b9759c9&hash=62c88e897176b4180a3f1bbebce7d7bd&ts=1&limit=${limit}&offset=0`);
+            const response = await axios.get(getSuperHerosAPI(0));
             fetchHeros(response.data.data.results);
-            setLocalHeros(response.data.data.results)
+            setLocalHeros(response.data.data.results);
+            setItem('totalHeros', response.data.data.total);
             setLoading(false);
         } catch (err) {
             setLoading(false);
@@ -44,11 +46,18 @@ const Superheros = () => {
         }
     }, [fetchHeros, heros]);
 
+    const setItem = (key:string , value:string) => {
+        localStorage.setItem(key,  value);
+    };
+
+    const getItem = (key:string) => {
+        return localStorage.getItem(key);
+    };
+
     const loadMore = useCallback(async () => {
         setLoadingMore(true);
-        console.log(offset);
         try {
-            const response = await axios.get(`https://gateway.marvel.com:443/v1/public/characters?apikey=94dddfd6f9cb5b1039abdd069b9759c9&hash=62c88e897176b4180a3f1bbebce7d7bd&ts=1&limit=${limit}&offset=${offset + limit}`);
+            const response = await axios.get(getSuperHerosAPI(offset + limit));
             const { results } = response.data.data;
             fetchHeros(results);
             setLocalHeros([...localHeros, ...results]);
@@ -60,16 +69,6 @@ const Superheros = () => {
         }
     }, [offset, fetchHeros, localHeros]);
 
-    useEffect(() => {
-        if (heros.length > 0 && localHeros.length === 0 && noResultFound) {
-            setLocalHeros(heros);
-        }
-    }, [heros, localHeros, noResultFound]);
-
-    useEffect(() => {
-        fetchHerosLocal();
-    }, [fetchHerosLocal]);
-
     const getCartAPI = useMemo(() => {
         if (localHeros.length > 0) {
             return <ListSuperHeros heros={localHeros} />
@@ -77,7 +76,7 @@ const Superheros = () => {
         return null;
     }, [localHeros]);
 
-    const searchHeros = useCallback((data: any, str: string) => {
+    const searchHeros = useCallback((data: HeroInterface[], str: string) => {
         const regex = new RegExp(str.toLowerCase(), 'g');
         const mapSearch = data.filter((hero: any) => {
             if (hero.name.toLowerCase().match(regex)) return true;
@@ -89,18 +88,42 @@ const Superheros = () => {
         setLocalHeros(mapSearch);
     }, []);
 
-    const onChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({...formData, [name]: value });
+        setFormData({ ...formData, [name]: value });
         searchHeros(heros, value);
     }, [searchHeros, heros, formData]);
 
+    const getLoadMoreBtn = useMemo(() => {
+        let total = getItem('totalHeros');
+        return total
+               && heros.length <= parseInt(total)
+               && !loading 
+               && !loadingMore 
+               && formData.search === '' 
+               && <button className="button"
+                onClick={() => loadMore()}>
+                Load More
+            </button>
+    }, [heros, loading, formData, loadMore, loadingMore]);
+
+
+    useEffect(() => {
+        if (heros.length > 0 && localHeros.length === 0 && noResultFound) {
+            setLocalHeros(heros);
+        }
+    }, [heros, localHeros, noResultFound]);
+
+    useEffect(() => {
+        fetchHerosLocal();
+    }, [fetchHerosLocal]);
+    
     return (
         <>
             <Header />
-            <CardStyles/>
-            <List/>
-            <SearchStyle/>
+            <CardStyles />
+            <List />
+            <SearchStyle />
             <div className="search-container">
                 <div className="search-childs">
                     <Input
@@ -121,21 +144,13 @@ const Superheros = () => {
                     </>
                 }
                 <div className="btn-container">
-                    {
-                        !loading && !loadingMore && formData.search === '' &&
-                        <button className="button"
-                            onClick={() => loadMore()}>
-                            Load More
-                        </button>
-                    }
-
+                    { getLoadMoreBtn }
                     {
                         loadingMore && <button
                             className="button">Please wait...
                         </button>
                     }
                 </div>
-
                 {loading && <><Skleton count={50} />
                 </>}
             </Container></>

@@ -1,5 +1,5 @@
-import {Action, ActionTypes} from '../action-types';
-import { Heros } from '../actions'
+import {Action, ActionTypes} from 'state/action-types';
+import { Heros } from 'state/actions'
 
 export const herosReducers = (state: Heros[] = [], action:Action) => {
     switch(action.type) {
