@@ -32,8 +32,6 @@ const Comics = () => {
         return heros;
     });
 
-    console.log(JSON.stringify(currentComic));
-
     useOnClickOutside(ref, () => setPoupActive(false));
 
     const fetchComicsById = useCallback(async () => {
