@@ -12,7 +12,9 @@ import { CardStyles } from 'components/styled-components/card';
 import { SkewHeaderStyle } from 'components/styled-components/skew-header'
 import { ModelStyles } from 'components/styled-components/model';
 import { ComicInterface } from 'Interfaces/Comic';
- 
+import { getComicAPI } from 'config/apis';
+import { defaultCurrComic } from 'defaultStates/currentComic';
+
 interface ParamTypes {
     id: string;
 }
@@ -22,7 +24,7 @@ const Comics = () => {
     const { id } = useParams<ParamTypes>();
     const [comics, setComics] = useState<ComicInterface[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [currentComic, setCurrentCmc] = useState<any>({ description: ''});
+    const [currentComic, setCurrentCmc] = useState<ComicInterface>(defaultCurrComic);
     const [containerHeigh, setContainerHeight] = useState<number>(100);
     const [popUpisActive, setPoupActive] = useState<boolean>(false);
 
@@ -30,12 +32,14 @@ const Comics = () => {
         return heros;
     });
 
+    console.log(JSON.stringify(currentComic));
+
     useOnClickOutside(ref, () => setPoupActive(false));
 
     const fetchComicsById = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://gateway.marvel.com/v1/public/characters/${id}/comics?apikey=94dddfd6f9cb5b1039abdd069b9759c9&hash=62c88e897176b4180a3f1bbebce7d7bd&ts=1&limit=20&offset=0`)
+            const response = await axios.get(getComicAPI(id));
             setComics(response.data.data.results);
             setLoading(false);
         } catch (err) {
@@ -45,7 +49,7 @@ const Comics = () => {
 
     }, [id]);
 
-    const setCurrentComic = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, comic: object) => {
+    const setCurrentComic = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, comic: ComicInterface) => {
         e.preventDefault();
         setPoupActive(true);
         setCurrentCmc(comic);

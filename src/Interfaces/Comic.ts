@@ -4,7 +4,7 @@ export interface ComicInterface {
     title:              string;
     issueNumber:        number;
     variantDescription: string;
-    description:        null;
+    description:        string;
     modified:           string;
     isbn:               string;
     upc:                string;
