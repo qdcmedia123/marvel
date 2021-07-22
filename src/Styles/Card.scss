@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 200px));
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.card {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  font-family: RobotoCondensed Bold, Trebuchet MS, Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  outline: none;
+
+  .gray-text {
+    color: gray;
+    font-size: 14px;
+  }
+
+  .imgWrap {
+    position: relative;
+    overflow: hidden;
+    height: 210px;
+
+    &::after {
+      height: 4px;
+      content: "";
+      background-color: #e62429;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+
+    img {
+      display: block;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      transform: scaleX(1);
+      transition: all 0.2s linear;
+      overflow: hidden;
+      object-fit: cover;
+      object-position: top center;
+    }
+  }
+
+  .imgWrap-comics {
+    position: relative;
+    overflow: hidden;
+    height: auto;
+  }
+
+  .body {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    line-height: 1;
+    padding: 24px;
+    background: #151515;
+    height: 145px;
+    z-index: 10;
+    vertical-align: middle;
+    box-sizing: border-box;
+
+    .text {
+      font-size: 16px;
+      font-weight: 400;
+      text-transform: uppercase;
+      margin: 0;
+      color: #fff;
+    }
+
+    .text-footer {
+      margin: 0;
+      color: #bbb;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.17s ease-in-out;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    &::before {
+      background: #e62429;
+      bottom: 100%;
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+      transition: transform 0.3s;
+      width: 100%;
+      z-index: -1;
+    }
+
+    &::after {
+      border-bottom-color: transparent;
+      border-left-color: transparent;
+      border-right-color: #fff;
+      border-style: solid;
+      border-top-color: transparent;
+      border-width: 12px 12px 0 0;
+      bottom: 0;
+      content: "";
+      position: absolute;
+      right: 0;
+      top: auto;
+      z-index: 40;
+    }
+  }
+
+  &:hover {
+    .imgWrap img {
+      transform: scale3d(1.05, 1.05, 1);
+    }
+
+    .body {
+      &:before {
+        transform: translate3d(0, 100%, 0);
+      }
+    }
+  }
+}

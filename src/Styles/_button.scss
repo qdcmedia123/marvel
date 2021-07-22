@@ -1,0 +1,6 @@
+$radius: 0.5rem;
+
+@mixin buttonSmall {
+    border-radius: $radius;
+    padding: 1rem;
+}

@@ -1,0 +1,23 @@
+$radius: 3px;
+@mixin rounded {
+    border-radius: $radius;
+}
+
+
+.error {
+    border: 1px #f00;
+
+    &--seriouse {
+        @extend .error;
+        border-width: 3px;
+    }
+}
+// Or else you can do like this as well 
+.error:hover {
+    background-color: red;
+}
+
+.error--seriouse {
+    @extend .error;
+    border-width: 0ch;
+}

@@ -8,13 +8,13 @@ import ListComics from 'components/List/ListComics';
 import ComicModel from 'components/Models/ComicModel';
 import Header from 'components/Header';
 import { useTypedSelector } from 'hooks/use-typed-selector';
-import { CardStyles } from 'components/styled-components/card';
 import { SkewHeaderStyle } from 'components/styled-components/skew-header'
-import { ModelStyles } from 'components/styled-components/model';
 import { ComicInterface } from 'Interfaces/Comic';
 import { getComicAPI } from 'config/apis';
 import { defaultCurrComic } from 'defaultStates/currentComic';
-
+import 'Styles/Card.scss';
+import 'Styles/Model.scss';
+import 'Styles/SkewHeader.scss';
 interface ParamTypes {
     id: string;
 }
@@ -105,12 +105,8 @@ const Comics = () => {
 
     return (
         <>
-            <ModelStyles />
             {getModel}
-            <SkewHeaderStyle />
             <Header />
-            <CardStyles />
-
             <div className="skew-container">
                 <div className="comic-parent">
                     <div className="col parent-title">

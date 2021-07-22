@@ -3,14 +3,14 @@ import { useTypedSelector } from 'hooks/use-typed-selector';
 import { useActions } from 'hooks/use-actions';
 import axios from 'axios';
 import { Container, Input } from 'components/styled-components'
-import { CardStyles } from 'components/styled-components/card';
 import { List } from 'components/styled-components/list';
-import { SearchStyle } from 'components/styled-components/search';
 import Skleton from 'react-loading-skeleton';
 import Header from 'components/Header';
 import ListSuperHeros from 'components/List/ListSuperHeros';
 import { HeroInterface } from 'Interfaces/Heros';
 import { getSuperHerosAPI } from 'config/apis';
+import 'Styles/Card.scss';
+import 'Styles/Search.scss';
 
 interface formInterface {
     search: string;
@@ -121,9 +121,7 @@ const Superheros = () => {
     return (
         <>
             <Header />
-            <CardStyles />
             <List />
-            <SearchStyle />
             <div className="search-container">
                 <div className="search-childs">
                     <Input
